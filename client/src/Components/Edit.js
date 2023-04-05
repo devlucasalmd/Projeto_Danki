@@ -4,12 +4,12 @@ import React, {Fragment, useState} from 'react'
 const EditTodo = ({ todo }) => {
     const [description, setDescription] = useState(todo.description)
 
-    const updateDescription = async e => {
-        e.preventDefault();
+    const updateDescription = async (e) => {
+        e.preventDefault()
 
         try{
             const body = {description};
-            const response = await fetch(`http://localhost:8000/todos/${todo.todo_id}`,
+            const response = await fetch(`http://localhost:5000/todos/${todo.todo_id}`,
             {
                 method: "PUT",
                 headers: {"Content-Type": "application/json"},
@@ -23,54 +23,48 @@ const EditTodo = ({ todo }) => {
     }
 
     return(
-        <Fragment>
-            <button
-                type="button"
-                className="btn btn-warning"
-                data-toggle="modal"
-                data-target={`#id${todo.todo_id}`}
-                >Editar
-            </button>
-            
-            <div 
-            className="modal" 
-            id={`id${todo.todo_id}`} 
-            onClick={() => setDescription(todo.description)}>
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h4>Editar</h4>
-                            <button 
-                                type="button" 
-                                className="close" 
-                                data-dismiss="modal" 
-                                onClick={() => setDescription(todo.description)}>X</button>
-                        </div>
-                    </div>
-                    <div className="modal-body">
-                        <input
-                            type="text"
-                            className="form-control"
-                            value={description}
-                            onChange={e => setDescription(e.target.value)}
-                        />
-                    </div>
+        <Fragment> {/* Ou <Vazio></Vazio> */}
+            {/* <!-- Button trigger modal --> */}
+            <button 
+            type="button" 
+            class="btn btn-warning" 
+            data-bs-toggle="modal" 
+            data-bs-target={`#id${todo.todo_id}`}>Editar</button>
 
-                    <div className="modal-footer">
-                        <button
-                            type="button"
-                            className="btn btn-warning"
-                            data-dismiss="modal"
-                            onClick={e => updateDescription(e)}>Editar</button>
-
-                        <button
-                            type="button"
-                            className="btn btn-danger"
-                            data-dismiss="modal"
-                            onClick={() => setDescription(todo.description)}>Fechar</button>                        
-                    </div>
+            {/* <!-- Modal --> */}
+            <div class="modal fade" id={`id${todo.todo_id}`} tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Afazeres</h1>
+                    <button
+                    type="button" 
+                    class="btn-close" 
+                    data-bs-dismiss="modal" 
+                    aria-label="Close" 
+                    onClick={() => setDescription(todo.description)}></button>
+                </div>
+                <div class="modal-body">
+                <input
+                        type="text"
+                        className="form-control"
+                        value={description}
+                        onChange={e => setDescription(e.target.value)}
+                />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" 
+                    class="btn btn-secondary" 
+                    data-bs-dismiss="modal" 
+                    onClick={() => setDescription(todo.description)}>Close</button>
+                    <button 
+                    type="button" 
+                    class="btn btn-primary" 
+                    onClick={e => updateDescription(e)}>Save changes</button>
+                </div>
                 </div>
             </div>
+            </div>            
         </Fragment>
     )
 }
